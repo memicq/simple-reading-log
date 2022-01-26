@@ -23,12 +23,11 @@ class ReadingActivityRecordModal extends StatelessWidget {
   static open(
     BuildContext context, {
     DateTime? initialDate,
-    void Function(DateTime, List<BookRow>)? onSelected,
+    void Function()? callback,
     List<BookRow> books = const [],
   }) {
     DateTime _date = (initialDate != null) ? initialDate : DateTime.now();
-    void Function(DateTime, List<BookRow>) _onSelected =
-        (onSelected != null) ? onSelected : (date, books) {};
+    void Function() _callback = callback ?? () {};
 
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
@@ -37,19 +36,11 @@ class ReadingActivityRecordModal extends StatelessWidget {
       builder: (BuildContext context) {
         return ReadingActivityRecordModal(selectedDate: _date);
       },
-    );
+    ).whenComplete(() => _callback());
   }
 
   static void close(BuildContext context) {
     Navigator.of(context).pop();
-  }
-
-  void onDateSelected(DateTime date) {
-    selectedDate = date;
-  }
-
-  void onBooksSelected(List<BookRow> books) {
-    selectedBooks = books;
   }
 
   @override
@@ -58,8 +49,11 @@ class ReadingActivityRecordModal extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ReadingActivityRecordCubit>(
-          create: (context) =>
-              ReadingActivityRecordCubit()..listByStatus(_sessionCubit.getCurrentUserId()),
+          create: (context) => ReadingActivityRecordCubit()
+            ..initialize(
+              userId: _sessionCubit.getCurrentUserId(),
+              initialDate: selectedDate,
+            ),
         ),
         BlocProvider(
           create: (context) => ReadingActivityRecordDisplayStateCubit(),

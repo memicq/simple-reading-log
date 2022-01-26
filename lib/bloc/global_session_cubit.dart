@@ -111,8 +111,6 @@ class SessionCubit extends Cubit<UserRow?> {
   }
 
   Future<User?> _loginByApple() async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-
     final _rawNonce = generateNonce();
     final _nonce = sha256ofString(_rawNonce);
 

@@ -59,7 +59,10 @@ class BookshelfItemDetailTemplate extends StatelessWidget {
                 right: 20,
                 child: RoundedPrimaryButton(
                   iconData: Icons.post_add_outlined,
-                  onPressed: () => ReadingActivityRecordModal.open(context),
+                  onPressed: () => ReadingActivityRecordModal.open(
+                    context,
+                    callback: () {},
+                  ),
                 ),
               )
             ],

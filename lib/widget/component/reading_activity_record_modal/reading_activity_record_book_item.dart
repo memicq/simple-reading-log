@@ -36,6 +36,7 @@ class ReadingActivityRecordBookItem extends StatelessWidget {
             ),
           ),
           child: Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
               Checkbox(
                 value: isChecked,
@@ -52,17 +53,23 @@ class ReadingActivityRecordBookItem extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    book.title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(book.author),
-                ],
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      book.title,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      book.author,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               )
             ],
           ),

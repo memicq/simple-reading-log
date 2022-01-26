@@ -52,21 +52,21 @@ class SettingTemplate extends StatelessWidget {
                 title: "プライバシーポリシー",
                 onPressed: () => SettingPrivacyPolicyTemplate.open(context),
               ),
-              const SettingMenuItem(
-                iconData: Icons.update,
-                title: "最近の更新",
-              ),
-              const ColumnSpacer(),
+              // const SettingMenuItem(
+              //   iconData: Icons.update,
+              //   title: "最近の更新",
+              // ),
+              // const ColumnSpacer(),
               SettingMenuItem(
                 iconData: Icons.reviews_outlined,
                 title: "AppStoreでレビューを書く",
                 onPressed: () => AppReview.requestReview,
               ),
-              const SettingMenuItem(
-                iconData: Icons.share_outlined,
-                title: "このアプリをシェア",
-              ),
-              const ColumnSpacer(),
+              // const SettingMenuItem(
+              //   iconData: Icons.share_outlined,
+              //   title: "このアプリをシェア",
+              // ),
+              // const ColumnSpacer(),
               const SettingMenuItem(
                 iconData: Icons.person_outlined,
                 title: "開発者を支援する",

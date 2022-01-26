@@ -4,6 +4,7 @@ import 'package:simple_book_log/bloc/reading_activity_record_cubit.dart';
 import 'package:simple_book_log/bloc/reading_activity_record_display_state_cubit.dart';
 import 'package:simple_book_log/const/borders.dart';
 import 'package:simple_book_log/const/color_constants.dart';
+import 'package:simple_book_log/resource/model/state/reading_activity_record_cubit_state.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
 import 'package:simple_book_log/util/datetime_util.dart';
 import 'package:simple_book_log/widget/component/common/event_calendar.dart';
@@ -30,10 +31,10 @@ class ReadingActivityRecordCardList extends StatelessWidget {
     ReadingActivityRecordDisplayStateCubit _displayStateCubit =
         context.read<ReadingActivityRecordDisplayStateCubit>();
 
-    return BlocBuilder<ReadingActivityRecordCubit, Map<BookRow, bool>>(
+    return BlocBuilder<ReadingActivityRecordCubit, ReadingActivityRecordCubitState>(
       bloc: _readingActivityRecordCubit,
-      builder: (context, selectedBooks) {
-        print("updateSelectedBooks");
+      builder: (context, state) {
+        int selectCount = state.selectedBooks.values.where((bool selected) => selected).length;
 
         return BlocBuilder<ReadingActivityRecordDisplayStateCubit, Tuple2<bool, bool>>(
           bloc: _displayStateCubit,
@@ -70,7 +71,7 @@ class ReadingActivityRecordCardList extends StatelessWidget {
                   ),
                 ),
                 AnimatedSize(
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 300),
                   child: SizedBox(
                     height: dateContentHeight,
                     child: EventCalendar(
@@ -103,18 +104,18 @@ class ReadingActivityRecordCardList extends StatelessWidget {
                       child: ReadingActivityRecordCardHeader(
                         iconData: Icons.book_outlined,
                         title: "読んだ本:",
-                        value: "未選択",
+                        value: (selectCount == 0) ? "未選択" : "$selectCount件選択中",
                         isClosed: isBooksFormClosed,
                       ),
                     ),
                   ),
                 ),
                 AnimatedSize(
-                  duration: const Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 300),
                   child: SizedBox(
                     height: bookContentHeight,
                     child: ListView(
-                      children: selectedBooks.entries
+                      children: state.selectedBooks.entries
                           .map(
                             (entry) => ReadingActivityRecordBookItem(
                               book: entry.key,

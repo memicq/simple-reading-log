@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/bloc/reading_activity_cubit.dart';
-import 'package:simple_book_log/resource/model/table/book_row.dart';
 import 'package:simple_book_log/resource/model/table/reading_activity_row.dart';
 import 'package:simple_book_log/widget/component/reading_activity_record_modal/reading_activity_record_modal.dart';
 
@@ -40,6 +39,7 @@ class StatisticMenuHabitBottom extends StatelessWidget {
         onPressed: () => ReadingActivityRecordModal.open(
           context,
           initialDate: getToday(),
+          callback: () => _readingActivityCubit.list(userId),
         ),
       ),
     );

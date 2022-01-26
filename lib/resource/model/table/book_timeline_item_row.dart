@@ -65,7 +65,7 @@ class BookTimelineItemRow {
       case BookTimelineItemType.changeStatus:
         return "「${bookStatus!.japaneseName}」に変更";
       case BookTimelineItemType.readBook:
-        return "読書";
+        return "読書記録を追加";
       default:
         return "";
     }

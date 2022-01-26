@@ -18,7 +18,7 @@ class StatisticsScreen extends StatelessWidget {
         ),
         BlocProvider<ReadingActivityRecordCubit>(
           create: (context) =>
-              ReadingActivityRecordCubit()..listByStatus(_sessionCubit.getCurrentUserId()),
+              ReadingActivityRecordCubit()..initialize(userId: _sessionCubit.getCurrentUserId()),
         )
       ],
       child: StatisticsTemplate(),

@@ -18,56 +18,6 @@ class StatisticMenuCalendar extends StatefulWidget {
 }
 
 class StatisticMenuCalendarState extends State<StatisticMenuCalendar> {
-  Future<void> _createReadingActivity(
-    String userId,
-    DateTime date,
-    ReadingActivityCubit _cubit,
-  ) async {
-    ReadingActivityRow _activity = ReadingActivityRow.createNewReadingActivity(date);
-    await _cubit.create(userId, _activity);
-    ReadingActivityRecordModal.close(context);
-  }
-
-  Future<void> _deleteReadingActivity(
-    String userId,
-    DateTime date,
-    ReadingActivityCubit _cubit,
-  ) async {
-    await _cubit.delete(userId, date);
-    ReadingActivityRecordModal.close(context);
-  }
-
-  void _onDayLongPressed(
-    DateTime selectedDate,
-    DateTime focusedDate,
-    Map<int, List<ReadingActivityRow>> activities,
-    String userId,
-    ReadingActivityCubit readingActivityCubit,
-  ) {
-    if (selectedDate.isAfter(DateTime.now())) return;
-
-    void Function() _onPressed;
-
-    if (activities.containsKey(DateTimeUtil.dateKey(selectedDate))) {
-      // _onPressed = () => _deleteReadingActivity(
-      //       userId,
-      //       selectedDate,
-      //       readingActivityCubit,
-      //     );
-    } else {
-      _onPressed = () => _createReadingActivity(
-            userId,
-            selectedDate,
-            readingActivityCubit,
-          );
-    }
-
-    ReadingActivityRecordModal.open(
-      context,
-      initialDate: selectedDate,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     SessionCubit _sessionCubit = context.read<SessionCubit>();
@@ -85,12 +35,12 @@ class StatisticMenuCalendarState extends State<StatisticMenuCalendar> {
           initialFocusedDate: DateTime.now(),
           dayActivities: dayActivities,
           onDayLongPressed: (selectedDate, focusedDate) {
-            _onDayLongPressed(
-              selectedDate,
-              focusedDate,
-              dayActivities,
-              _sessionCubit.getCurrentUserId(),
-              _readingActivityCubit,
+            if (selectedDate.isAfter(DateTime.now())) return;
+
+            ReadingActivityRecordModal.open(
+              context,
+              initialDate: selectedDate,
+              callback: () => _readingActivityCubit.list(_sessionCubit.getCurrentUserId()),
             );
           },
         );
