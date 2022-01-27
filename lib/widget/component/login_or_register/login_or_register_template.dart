@@ -16,6 +16,9 @@ class LoginOrRegisterTemplate extends StatefulWidget {
 }
 
 class LoginOrRegisterTemplateState extends State<LoginOrRegisterTemplate> {
+  static const double _loginButtonWidth = 220;
+  static const double _loginButtonHeight = 48;
+
   void _checkLoginStateAfterBuild(UserRow? _user) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       if (_user != null) {
@@ -39,26 +42,44 @@ class LoginOrRegisterTemplateState extends State<LoginOrRegisterTemplate> {
             enableCloseButton: false,
           ),
           body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
-                ),
-                SignInButton(
-                  Buttons.Google,
-                  onPressed: () => _sessionCubit.login(LoginAuthenticationType.google),
-                ),
-                SignInButton(
-                  Buttons.Apple,
-                  onPressed: () => _sessionCubit.login(LoginAuthenticationType.apple),
-                ),
-                SignInButton(
-                  Buttons.Email,
-                  onPressed: () {},
-                ),
-                // Divider(),
-              ],
+            child: SizedBox(
+              width: _loginButtonWidth,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2 - 80 - _loginButtonHeight * 2,
+                  ),
+                  SignInButton(
+                    Buttons.Google,
+                    onPressed: () => _sessionCubit.login(LoginAuthenticationType.google),
+                  ),
+                  SignInButton(
+                    Buttons.Apple,
+                    onPressed: () => _sessionCubit.login(LoginAuthenticationType.apple),
+                  ),
+                  Divider(),
+                  Container(
+                    height: _loginButtonHeight,
+                    padding: EdgeInsets.symmetric(vertical: 6),
+                    child: SizedBox(
+                      height: 36,
+                      width: _loginButtonWidth,
+                      child: ElevatedButton(
+                        onPressed: () => _sessionCubit.login(LoginAuthenticationType.anonymous),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          foregroundColor: MaterialStateProperty.all(Colors.black),
+                        ),
+                        child: const Center(
+                          child: Text("匿名ログイン"),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Divider(),
+                ],
+              ),
             ),
           ),
         );

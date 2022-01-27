@@ -23,8 +23,8 @@ class StatisticsTemplate extends StatelessWidget {
           StatisticMenuHabit(),
           const ColumnSpacer(),
           StatisticMenuRecentBook(),
-          const ColumnSpacer(),
-          const StatisticMenuAccumulation(),
+          // const ColumnSpacer(),
+          // const StatisticMenuAccumulation(),
         ],
       ),
     );

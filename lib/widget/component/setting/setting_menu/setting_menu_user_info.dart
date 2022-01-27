@@ -37,12 +37,13 @@ class SettingMenuUserInfo extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        const Text("メールアドレス: "),
-                        Text(userRow.email),
-                      ],
-                    ),
+                    if (userRow.email != null)
+                      Row(
+                        children: [
+                          const Text("メールアドレス: "),
+                          Text(userRow.email!),
+                        ],
+                      ),
                     const SizedBox(height: 10),
                     Container(
                       width: double.infinity,

@@ -49,12 +49,13 @@ class SessionCubit extends Cubit<UserRow?> {
     // TODO(memicq): ログイン失敗したケースを返して画面で扱えるようにする
     User? _user = await _loginBy(authenticationType);
     if (_user == null) return;
-    _userRow = await _userRepository.findBy(_user.email!);
+    _userRow = await _userRepository.findByUid(_user.uid);
     if (_userRow == null) {
       _userRow = UserRow.createNewUser(
-        _user.displayName!,
-        _user.email!,
-        LoginAuthenticationType.google,
+        _user.uid,
+        _user.displayName,
+        _user.email,
+        authenticationType,
       );
       await _userRepository.create(_userRow!);
     }
@@ -67,8 +68,19 @@ class SessionCubit extends Cubit<UserRow?> {
         return await _loginByGoogle();
       case LoginAuthenticationType.apple:
         return await _loginByApple();
+      case LoginAuthenticationType.anonymous:
+        return await _loginAnonymously();
       default:
         throw UnimplementedError();
+    }
+  }
+
+  Future<User?> _loginAnonymously() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      return (await _auth.signInAnonymously()).user;
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -104,13 +116,13 @@ class SessionCubit extends Cubit<UserRow?> {
     }
   }
 
-  String sha256ofString(String input) {
-    final bytes = utf8.encode(input);
-    final digest = sha256.convert(bytes);
-    return digest.toString();
-  }
-
   Future<User?> _loginByApple() async {
+    String sha256ofString(String input) {
+      final bytes = utf8.encode(input);
+      final digest = sha256.convert(bytes);
+      return digest.toString();
+    }
+
     final _rawNonce = generateNonce();
     final _nonce = sha256ofString(_rawNonce);
 

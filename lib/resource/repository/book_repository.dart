@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simple_book_log/resource/model/enum/book_status.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
+import 'package:simple_book_log/resource/model/table/book_timeline_item_row.dart';
 import 'package:simple_book_log/resource/repository/repository_base.dart';
+
+import "package:collection/collection.dart";
 
 class BookRepository extends RepositoryBase<BookRow> {
   @override
@@ -64,5 +67,32 @@ class BookRepository extends RepositoryBase<BookRow> {
         .collection('books')
         .doc(updatedRow.bookId)
         .update(updatedRow.toMap());
+  }
+
+  Future<Map<BookRow, DateTime>> listFinishedBook(
+      String userId, DateTime start, DateTime end) async {
+    final _db = FirebaseFirestore.instance;
+    final bookQs = await _db.collection('users').doc(userId).collection('books').get();
+    final books = await Future.wait(
+      bookQs.docs.map(
+        (qds) async {
+          final bookTimelineQs = await qds.reference
+              .collection('book_timeline_items')
+              .where('bookStatus', isEqualTo: BookStatus.finishReading.code)
+              .orderBy('createdAt', descending: true)
+              .get();
+
+          QueryDocumentSnapshot bookTimelineQds = bookTimelineQs.docs.first;
+          if (!bookTimelineQds.exists) return null;
+
+          BookTimelineItemRow _timelineItem = BookTimelineItemRow.fromSnapshot(bookTimelineQds);
+          if (start.isBefore(_timelineItem.createdAt) && end.isAfter(_timelineItem.createdAt)) {
+            return MapEntry(BookRow.fromSnapshot(qds), _timelineItem.createdAt);
+          }
+        },
+      ),
+    );
+
+    return Map.fromEntries(books.where((entry) => entry != null).map((entry) => entry!));
   }
 }

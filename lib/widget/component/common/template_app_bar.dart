@@ -24,7 +24,10 @@ class TemplateAppBar extends StatelessWidget with PreferredSizeWidget {
       child: AppBar(
         iconTheme: const IconThemeData(color: Colors.black26, size: 10),
         elevation: appBarElevation,
-        title: Text(title),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
         automaticallyImplyLeading: enableCloseButton,
       ),
     );
