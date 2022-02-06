@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_book_log/bloc/bookshelf_cubit.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/widget/component/bookshelf/bookshelf_template.dart';
 
 class BookshelfScreen extends StatelessWidget {
@@ -8,8 +9,10 @@ class BookshelfScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
+
     return BlocProvider<BookshelfBooksCubit>(
-      create: (context) => BookshelfBooksCubit(),
+      create: (context) => BookshelfBooksCubit()..initialize(_sessionCubit.getCurrentUserId()),
       child: BookshelfTemplate(),
     );
   }

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:simple_book_log/bloc/event/tab_controller_event.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/bloc/tab_controller_bloc.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/const/shadows.dart';
+import 'package:simple_book_log/resource/model/state/session_cubit_state.dart';
 import 'package:simple_book_log/resource/model/table/user_row.dart';
 import 'package:simple_book_log/widget/app_builder.dart';
+import 'package:simple_book_log/widget/component/common/admob_large_banner.dart';
 import 'package:simple_book_log/widget/component/common/bottom_tab_item.dart';
 import 'package:simple_book_log/widget/component/common/is_bottom_space.dart';
 import 'package:simple_book_log/widget/component/common/tab_page.dart';
+import 'package:simple_book_log/widget/component/loading/loading_template.dart';
 import 'package:simple_book_log/widget/screen/bookshelf_screen.dart';
 import 'package:simple_book_log/widget/screen/login_or_register_screen.dart';
 import 'package:simple_book_log/widget/screen/statistics_screen.dart';
@@ -35,8 +37,6 @@ class ApplicationLayout extends StatelessWidget {
 
 class ApplicationLayoutInner extends StatelessWidget {
   ApplicationLayoutInner({Key? key}) : super(key: key);
-
-  bool _shouldShowSignInScreen = true;
 
   List<TabPage> defaultPages = [
     TabPage(
@@ -77,13 +77,6 @@ class ApplicationLayoutInner extends StatelessWidget {
   late TabControllerEvent activeTabEvent = TabControllerEvent.bookshelf;
   late List<TabPage> pages;
 
-  final BannerAd bannerAd = BannerAd(
-    size: AdSize.fullBanner,
-    adUnitId: "ca-app-pub-3940256099942544/2934735716",
-    listener: const BannerAdListener(),
-    request: const AdRequest(),
-  );
-
   List<TabPage> updatePages(TabControllerBloc bloc) {
     return defaultPages.map((page) {
       bool isActive = (page.openEvent == activeTabEvent);
@@ -112,9 +105,12 @@ class ApplicationLayoutInner extends StatelessWidget {
     );
   }
 
-  void _checkLoginStateAfterBuild(BuildContext context) {
+  void _checkLoginStateAfterBuild(
+    BuildContext context,
+    SessionCubitState sessionState,
+  ) {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      if (_shouldShowSignInScreen) {
+      if (sessionState.shouldShowSignInScreen()) {
         LoginOrRegisterScreen.open(
           context,
           fullscreenDialog: true,
@@ -128,17 +124,19 @@ class ApplicationLayoutInner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bannerAd.load();
-
     TabControllerBloc _bloc = context.read<TabControllerBloc>();
     SessionCubit _sessionCubit = context.read<SessionCubit>();
 
     pages = updatePages(_bloc);
 
-    return BlocBuilder<SessionCubit, UserRow?>(
+    return BlocBuilder<SessionCubit, SessionCubitState>(
       bloc: _sessionCubit,
-      builder: (context, user) {
-        _checkLoginStateAfterBuild(context);
+      builder: (context, sessionState) {
+        _checkLoginStateAfterBuild(context, sessionState);
+
+        if (sessionState.isFirstFetching || sessionState.currentUser == null) {
+          return LoadingTemplate();
+        }
 
         return BlocBuilder<TabControllerBloc, TabControllerEvent>(
           bloc: _bloc,
@@ -155,12 +153,7 @@ class ApplicationLayoutInner extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(child: content),
-                    Container(
-                      alignment: Alignment.center,
-                      child: AdWidget(ad: bannerAd),
-                      width: bannerAd.size.width.toDouble(),
-                      height: bannerAd.size.height.toDouble(),
-                    ),
+                    if (sessionState.currentUser!.isAdvertisementEnabled) AdmobLargeBanner(),
                     buildTabBar(),
                   ],
                 ),

@@ -1,20 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simple_book_log/resource/model/state/bookshelf_books_cubit_state.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
 import 'package:simple_book_log/resource/repository/book_repository.dart';
 import 'package:simple_book_log/util/kana_util.dart';
 
-class BookshelfBooksCubit extends Cubit<List<BookRow>> {
-  BookshelfBooksCubit() : super(List.empty());
+class BookshelfBooksCubit extends Cubit<BookshelfBooksCubitState> {
+  BookshelfBooksCubit() : super(BookshelfBooksCubitState.initialState);
 
   final BookRepository _bookRepository = BookRepository();
 
-  List<BookRow> _bookRows = List.empty();
-  List<BookRow> _filteredBookRows = List.empty();
+  BookshelfBooksCubitState _state = BookshelfBooksCubitState.initialState;
 
-  Future<void> list(String userId) async {
-    _bookRows = await _bookRepository.list(userId);
-    _filteredBookRows = _bookRows;
-    emit(_filteredBookRows);
+  Future<void> initialize(String userId) async {
+    List<BookRow> allBooks = await _bookRepository.list(userId);
+    _state = _state.copyWith(allBooks: allBooks, filteredBooks: allBooks);
+    emit(_state);
   }
 
   Future<void> listBy(String query) async {
@@ -28,7 +28,12 @@ class BookshelfBooksCubit extends Cubit<List<BookRow>> {
           book.isbn == query;
     }
 
-    _filteredBookRows = _bookRows.where((bookRow) => _isMatch(bookRow, query)).toList();
-    emit(_filteredBookRows);
+    List<BookRow> _filteredBookRows = _state.allBooks
+        .where(
+          (bookRow) => _isMatch(bookRow, query),
+        )
+        .toList();
+    _state = _state.copyWith(filteredBooks: _filteredBookRows);
+    emit(_state);
   }
 }

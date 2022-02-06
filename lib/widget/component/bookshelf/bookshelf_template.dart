@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_book_log/bloc/bookshelf_cubit.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/borders.dart';
+import 'package:simple_book_log/resource/model/state/bookshelf_books_cubit_state.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
+import 'package:simple_book_log/widget/component/bookshelf/bookshelf_books_not_found.dart';
 import 'package:simple_book_log/widget/component/bookshelf/bookshelf_list/bookshelf_list_divider.dart';
 import 'package:simple_book_log/widget/component/bookshelf/bookshelf_list/bookshelf_list_item.dart';
 import 'package:simple_book_log/widget/component/common/rounded_primary_button.dart';
@@ -11,7 +13,9 @@ import 'package:simple_book_log/widget/component/common/template_sliver_scaffold
 import 'package:simple_book_log/widget/screen/bookshelf_addition_screen.dart';
 
 class BookshelfTemplate extends StatelessWidget {
-  BookshelfTemplate({Key? key}) : super(key: key);
+  BookshelfTemplate({
+    Key? key,
+  }) : super(key: key);
 
   final TextEditingController _controller = TextEditingController();
 
@@ -43,7 +47,6 @@ class BookshelfTemplate extends StatelessWidget {
     SessionCubit _sessionCubit = context.read<SessionCubit>();
     BookshelfBooksCubit _booksCubit = context.read<BookshelfBooksCubit>();
     String _userId = _sessionCubit.getCurrentUserId();
-    _booksCubit.list(_userId);
 
     return TemplateSliverScaffold(
       title: "本棚",
@@ -74,19 +77,23 @@ class BookshelfTemplate extends StatelessWidget {
         ),
       ),
       children: [
-        BlocBuilder<BookshelfBooksCubit, List<BookRow>>(
+        BlocBuilder<BookshelfBooksCubit, BookshelfBooksCubitState>(
           bloc: _booksCubit,
-          builder: (context, books) {
+          builder: (context, _state) {
+            if (_state.allBooks.isEmpty) {
+              return BookshelfBooksNotFound();
+            }
             return Column(
-              children: buildBookList(books),
+              children: buildBookList(_state.filteredBooks),
             );
           },
         ),
       ],
       floatingActionButton: RoundedPrimaryButton(
-        onPressed: () => BookshelfAdditionScreen.open(context, callback: () {
-          if (_userId != null) _booksCubit.list(_userId);
-        }),
+        onPressed: () => BookshelfAdditionScreen.open(
+          context,
+          callback: () => _booksCubit.initialize(_userId),
+        ),
         iconData: Icons.add,
       ),
     );

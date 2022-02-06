@@ -36,7 +36,7 @@ class BookshelfItemDetailDeletion extends StatelessWidget {
           BookshelfItemDetailScreen.close(context);
         },
         child: const Text(
-          "この本を削除する",
+          "この本を削除する（長押し）",
           style: TextStyle(color: Colors.grey),
         ),
         style: ButtonStyle(

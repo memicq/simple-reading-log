@@ -29,7 +29,7 @@ class BottomTabItemState extends State<BottomTabItem> {
     Icon icon = widget.isActive
         ? Icon(
             widget.filledIconData,
-            color: ColorConstants.accentTextColor,
+            color: ColorConstants.accentColor,
             size: 25,
           )
         : Icon(
@@ -42,7 +42,7 @@ class BottomTabItemState extends State<BottomTabItem> {
         ? Text(
             widget.menuTitle,
             style: TextStyle(
-              color: ColorConstants.accentTextColor,
+              color: ColorConstants.accentColor,
               fontSize: 10,
             ),
           )

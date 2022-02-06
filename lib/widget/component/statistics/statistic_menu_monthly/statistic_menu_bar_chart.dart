@@ -17,7 +17,18 @@ class StatisticMenuBarChart extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 200, maxHeight: 400),
       child: SizedBox(
         height: 200,
-        child: charts.BarChart(series),
+        child: charts.BarChart(
+          series,
+          animate: true,
+          domainAxis: charts.OrdinalAxisSpec(
+            viewport: charts.OrdinalViewport("1", 10),
+          ),
+          behaviors: [
+            // new charts.SeriesLegend(),
+            new charts.SlidingViewport(),
+            new charts.PanAndZoomBehavior(),
+          ],
+        ),
       ),
     );
   }

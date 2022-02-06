@@ -29,7 +29,7 @@ class BookshelfItemDetailMemo extends StatelessWidget {
                 bookRow.memo,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.black87),
+                style: const TextStyle(color: Colors.black87),
               );
 
         Text buttonText = isEmpty ? const Text("追加する") : const Text("確認・編集する");

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simple_book_log/resource/model/table/reading_activity_row.dart';
 import 'package:simple_book_log/resource/repository/repository_base.dart';
 
+import 'package:collection/collection.dart';
+
 class ReadingActivityRepository extends RepositoryBase<ReadingActivityRow> {
   static String COLLECTION_NAME = 'reading_activities';
 
@@ -26,7 +28,7 @@ class ReadingActivityRepository extends RepositoryBase<ReadingActivityRow> {
         .get();
     final List<QueryDocumentSnapshot> _documentSnapshot = _querySnapshot.docs;
     final ReadingActivityRow? _readingActivityRow =
-        _documentSnapshot.map((snapshot) => ReadingActivityRow.fromSnapshot(snapshot)).first;
+        _documentSnapshot.map((snapshot) => ReadingActivityRow.fromSnapshot(snapshot)).firstOrNull;
     return _readingActivityRow;
   }
 

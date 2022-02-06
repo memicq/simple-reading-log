@@ -8,6 +8,7 @@ import 'package:simple_book_log/widget/component/bookshelf_item_detail/bookshelf
 import 'package:simple_book_log/widget/component/bookshelf_item_detail/bookshelf_item_detail_progress/bookshelf_item_detail_progress.dart';
 import 'package:simple_book_log/widget/component/bookshelf_item_detail/bookshelf_item_detail_timeline/bookshelf_item_detail_timeline.dart';
 import 'package:simple_book_log/widget/component/common/column_spacer.dart';
+import 'package:simple_book_log/widget/component/common/is_bottom_space.dart';
 import 'package:simple_book_log/widget/component/common/rounded_primary_button.dart';
 import 'package:simple_book_log/widget/component/common/template_scaffold.dart';
 import 'package:simple_book_log/widget/component/reading_activity_record_modal/reading_activity_record_modal.dart';
@@ -55,13 +56,14 @@ class BookshelfItemDetailTemplate extends StatelessWidget {
                 ],
               ),
               Positioned(
-                bottom: 40,
+                bottom: 20 + IosBottomSpace.bottomSpacePx,
                 right: 20,
                 child: RoundedPrimaryButton(
                   iconData: Icons.post_add_outlined,
                   onPressed: () => ReadingActivityRecordModal.open(
                     context,
                     callback: () {},
+                    onlyBook: bookRow,
                   ),
                 ),
               )

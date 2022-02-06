@@ -29,7 +29,7 @@ class BookshelfListItem extends StatelessWidget {
         onTap: () => BookshelfItemDetailScreen.open(
           context,
           bookRow: bookRow,
-          callback: () => _bookshelfBooksCubit.list(_sessionCubit.getCurrentUserId()),
+          callback: () => _bookshelfBooksCubit.initialize(_sessionCubit.getCurrentUserId()),
         ),
         child: Container(
           padding: EdgeInsets.all(10),

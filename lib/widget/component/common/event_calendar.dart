@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class EventCalendar extends StatefulWidget {
   final DateTime initialFocusedDate;
+  final DateTime? initialSelectedDate;
   final Map<int, List<ReadingActivityRow>> dayActivities;
   final void Function(DateTime, DateTime)? onDayLongPressed;
 
@@ -14,6 +15,7 @@ class EventCalendar extends StatefulWidget {
   const EventCalendar({
     Key? key,
     required this.initialFocusedDate,
+    this.initialSelectedDate,
     required this.dayActivities,
     this.onDayLongPressed,
     this.initialFormat = CalendarFormat.twoWeeks,
@@ -39,6 +41,7 @@ class EventCalendarState extends State<EventCalendar> {
   @override
   void initState() {
     _format = widget.initialFormat;
+    _selectedDate = widget.initialSelectedDate;
     _focusedDate = widget.initialFocusedDate;
     super.initState();
   }

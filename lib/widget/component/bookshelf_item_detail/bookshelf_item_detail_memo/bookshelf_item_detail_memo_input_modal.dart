@@ -5,6 +5,7 @@ import 'package:simple_book_log/widget/component/common/is_bottom_space.dart';
 import 'package:simple_book_log/widget/component/common/modal_bottom_sheet.dart';
 
 class BookshelfItemDetailMemoInputModal extends StatelessWidget {
+  final FocusNode _focusNode = FocusNode();
   final TextEditingController _controller = TextEditingController();
 
   String initialText;
@@ -66,14 +67,32 @@ class BookshelfItemDetailMemoInputModal extends StatelessWidget {
                     "メモを編集",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      height: 20,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(EdgeInsets.zero),
+                        ),
+                        child: const Text("保存する"),
+                        onPressed: () => onPressed(_controller.value.text),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  )
                 ],
               ),
             ),
+
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
                 child: Scrollbar(
                   child: TextField(
+                    focusNode: _focusNode,
                     controller: _controller,
                     keyboardType: TextInputType.multiline,
                     maxLines: 100,
@@ -84,20 +103,14 @@ class BookshelfItemDetailMemoInputModal extends StatelessWidget {
                       hintText: "メモを入力",
                     ),
                     style: const TextStyle(height: 1.5),
+                    onEditingComplete: () {
+                      _focusNode.unfocus();
+                    },
                   ),
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.only(right: 20),
-              alignment: Alignment.centerRight,
-              width: double.infinity,
-              child: TextButton(
-                child: const Text("保存する"),
-                onPressed: () => onPressed(_controller.value.text),
-              ),
-            ),
-            const IosBottomSpace(),
+            // const IosBottomSpace(),
           ],
         ),
       ),

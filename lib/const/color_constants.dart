@@ -8,8 +8,6 @@ class ColorConstants {
   static Color accentColorDark = Colors.cyan.shade800;
 
   static Color mainTextColor = Colors.black;
-  static Color subTextColor = Colors.black;
-  static Color accentTextColor = Colors.cyan;
   static Color disabledTextColor = Colors.grey;
   static Color grayTextColor = Colors.grey;
 }

@@ -8,11 +8,13 @@ import 'package:simple_book_log/resource/model/table/book_row.dart';
 class ReadingActivityRecordBookItem extends StatelessWidget {
   BookRow book;
   bool isChecked;
+  bool toggleDisabled;
 
   ReadingActivityRecordBookItem({
     Key? key,
     required this.book,
     required this.isChecked,
+    this.toggleDisabled = false,
   }) : super(key: key);
 
   @override
@@ -25,7 +27,11 @@ class ReadingActivityRecordBookItem extends StatelessWidget {
     return Material(
       color: bgColor,
       child: InkWell(
-        onTap: () => _readingActivityRecordCubit.toggleBookSelection(book.bookId),
+        onTap: () {
+          if (!toggleDisabled) {
+            _readingActivityRecordCubit.toggleBookSelection(book.bookId);
+          }
+        },
         child: Container(
           padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
           decoration: BoxDecoration(

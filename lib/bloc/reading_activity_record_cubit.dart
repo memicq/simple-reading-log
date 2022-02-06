@@ -21,25 +21,36 @@ class ReadingActivityRecordCubit extends Cubit<ReadingActivityRecordCubitState> 
   Future<void> initialize({
     required String userId,
     DateTime? initialDate,
+    BookRow? onlyBook,
   }) async {
     DateTime _initialDate = initialDate ?? DateTime.now();
 
-    List<BookRow> readingBooks = await _bookRepository.listByStatus(userId, BookStatus.reading);
-    List<BookRow> finishReadingBooks =
-        await _bookRepository.listByStatus(userId, BookStatus.finishReading);
-    List<BookRow> booksAfterReading = readingBooks + finishReadingBooks;
-    Map<BookRow, bool> selectedBooks = Map.fromEntries(
-      booksAfterReading.map((book) => MapEntry(book, false)),
-    );
+    Map<BookRow, bool> selectedBooks;
+    if (onlyBook != null) {
+      selectedBooks = {onlyBook: true};
+    } else {
+      List<BookRow> readingBooks = await _bookRepository.listByStatus(userId, BookStatus.reading);
+      List<BookRow> finishReadingBooks =
+          await _bookRepository.listByStatus(userId, BookStatus.finishReading);
+      List<BookRow> booksAfterReading = readingBooks + finishReadingBooks;
+      selectedBooks = Map.fromEntries(
+        booksAfterReading.map((book) => MapEntry(book, false)),
+      );
+    }
 
     _state = _state.copyWith(selectedDate: _initialDate, selectedBooks: selectedBooks);
     emit(_state);
   }
 
   Future<void> saveActivity(String userId) async {
-    ReadingActivityRow _readingActivityRow =
-        ReadingActivityRow.createNewReadingActivity(_state.selectedDate);
-    await _readingActivityRepository.create(userId, _readingActivityRow);
+    ReadingActivityRow? _readingActivityRow =
+        await _readingActivityRepository.findByDate(userId, _state.selectedDate);
+
+    if (_readingActivityRow == null) {
+      ReadingActivityRow _readingActivityRow =
+          ReadingActivityRow.createNewReadingActivity(_state.selectedDate);
+      await _readingActivityRepository.create(userId, _readingActivityRow);
+    }
 
     List<BookRow> selectedBookRows =
         Map.fromEntries(_state.selectedBooks.entries.where((entry) => entry.value)).keys.toList();

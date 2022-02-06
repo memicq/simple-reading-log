@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simple_book_log/const/borders.dart';
+import 'package:simple_book_log/const/color_constants.dart';
 
 class SettingMenuItem extends StatelessWidget {
   final IconData iconData;
@@ -37,7 +38,7 @@ class SettingMenuItem extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Icon(
                     iconData,
-                    color: Colors.cyan,
+                    color: ColorConstants.accentColor,
                   ),
                 ),
                 Expanded(

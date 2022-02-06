@@ -10,7 +10,7 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<SettingCubit>(
       create: (context) => SettingCubit(),
-      child: SettingTemplate(),
+      child: const SettingTemplate(),
     );
   }
 

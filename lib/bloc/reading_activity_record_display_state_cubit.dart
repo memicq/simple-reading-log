@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tuple/tuple.dart';
 
 class ReadingActivityRecordDisplayStateCubit extends Cubit<Tuple2<bool, bool>> {
-  ReadingActivityRecordDisplayStateCubit() : super(Tuple2<bool, bool>(true, true));
+  ReadingActivityRecordDisplayStateCubit() : super(Tuple2<bool, bool>(true, false));
 
   bool isDateFormClosed = true;
-  bool isBooksFormClosed = true;
+  bool isBooksFormClosed = false;
 
   void toggleDateFormClosed() {
     if (!isDateFormClosed) {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
+import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/resource/model/enum/login_authentication_type.dart';
+import 'package:simple_book_log/resource/model/state/session_cubit_state.dart';
 import 'package:simple_book_log/resource/model/table/user_row.dart';
+import 'package:simple_book_log/widget/component/setting/another_login_authentication_for_anonymous_user/another_login_authentication_for_anonymous_user.dart';
 import 'package:simple_book_log/widget/component/setting/setting_menu/setting_menu_card.dart';
 
 class SettingMenuUserInfo extends StatelessWidget {
@@ -11,10 +14,10 @@ class SettingMenuUserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SessionCubit _sessionCubit = context.read<SessionCubit>();
-    return BlocBuilder<SessionCubit, UserRow?>(
+    return BlocBuilder<SessionCubit, SessionCubitState>(
       bloc: _sessionCubit,
-      builder: (context, user) {
-        UserRow userRow = user!;
+      builder: (context, sessionState) {
+        UserRow userRow = sessionState.currentUser!;
 
         return SettingMenuCard(
           child: Container(
@@ -24,10 +27,10 @@ class SettingMenuUserInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  children: const [
+                  children: [
                     Icon(
                       Icons.account_circle_rounded,
-                      color: Colors.cyan,
+                      color: ColorConstants.accentColor,
                     ),
                     SizedBox(width: 10),
                     Text("ユーザ情報"),
@@ -56,6 +59,17 @@ class SettingMenuUserInfo extends StatelessWidget {
                         ],
                       ),
                     ),
+                    if (userRow.authenticationType == LoginAuthenticationType.anonymous)
+                      Container(
+                        alignment: Alignment.centerRight,
+                        height: 25,
+                        child: TextButton(
+                          style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
+                          onPressed: () =>
+                              AnotherLoginAuthenticationForAnonymousUserTemplate.open(context),
+                          child: const Text("ログイン認証を紐付ける"),
+                        ),
+                      )
                   ],
                 )
               ],

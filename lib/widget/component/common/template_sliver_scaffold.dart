@@ -74,6 +74,11 @@ class _TemplateSliverScaffoldState extends State<TemplateSliverScaffold> {
             bottom: 20,
             child: widget.floatingActionButton,
           ),
+          // Positioned(
+          //   right: 20,
+          //   bottom: 90,
+          //   child: widget.floatingActionButton,
+          // )
         ],
       ),
     );

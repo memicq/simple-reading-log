@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_book_log/bloc/statistic_menu_monthly_books_cubit.dart';
 import 'package:simple_book_log/resource/model/state/statistic_menu_monthly_books_cubit_state.dart';
 import 'package:simple_book_log/widget/component/statistics/statistic_menu/statistic_menu_card.dart';
-import 'package:simple_book_log/widget/component/statistics/statistic_menu_recent_book/statistic_menu_bar_chart.dart';
+import 'package:simple_book_log/widget/component/statistics/statistic_menu_monthly/statistic_menu_bar_chart.dart';
 
-class StatisticMenuRecentBook extends StatelessWidget {
-  StatisticMenuRecentBook({
+class StatisticMenuMonthly extends StatelessWidget {
+  StatisticMenuMonthly({
     Key? key,
   }) : super(key: key);
 

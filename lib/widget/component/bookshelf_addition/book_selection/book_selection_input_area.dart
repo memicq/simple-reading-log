@@ -32,7 +32,10 @@ class BookSelectionInputArea extends StatelessWidget {
           hintStyle: TextStyle(color: Colors.black26),
           border: InputBorder.none,
         ),
-        onEditingComplete: () => _rakutenCubit.searchByQuery(_controller.value.text),
+        onEditingComplete: () async {
+          await _rakutenCubit.searchByQuery(_controller.value.text);
+          _focusNode.unfocus();
+        },
       ),
     );
   }

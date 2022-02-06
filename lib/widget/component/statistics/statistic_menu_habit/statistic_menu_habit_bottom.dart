@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/bloc/reading_activity_cubit.dart';
+import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/resource/model/table/reading_activity_row.dart';
 import 'package:simple_book_log/widget/component/reading_activity_record_modal/reading_activity_record_modal.dart';
 
@@ -35,6 +36,9 @@ class StatisticMenuHabitBottom extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       alignment: Alignment.centerRight,
       child: TextButton(
+        style: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(ColorConstants.accentColor),
+        ),
         child: const Text("読書記録を追加する"),
         onPressed: () => ReadingActivityRecordModal.open(
           context,

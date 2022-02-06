@@ -33,6 +33,7 @@ class BookshelfItemDetailBasicInfo extends StatelessWidget {
             imageUrl: bookRow.imageUrl,
             height: 200,
             width: double.infinity,
+            // syncBgColor: true,
           ),
           BookshelfItemDetailHeader(
             title: bookRow.title,

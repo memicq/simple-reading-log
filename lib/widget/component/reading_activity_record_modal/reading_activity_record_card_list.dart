@@ -15,10 +15,12 @@ import 'package:tuple/tuple.dart';
 
 class ReadingActivityRecordCardList extends StatelessWidget {
   final DateTime initialDate;
+  final BookRow? onlyBook;
 
   const ReadingActivityRecordCardList({
     Key? key,
     required this.initialDate,
+    this.onlyBook,
   }) : super(key: key);
 
   @override
@@ -76,10 +78,11 @@ class ReadingActivityRecordCardList extends StatelessWidget {
                     height: dateContentHeight,
                     child: EventCalendar(
                       initialFocusedDate: DateTime.now(),
+                      initialSelectedDate: initialDate,
                       dayActivities: {},
-                      initialFormat: CalendarFormat.twoWeeks,
+                      initialFormat: CalendarFormat.month,
                       availableCalendarFormats: const {
-                        CalendarFormat.twoWeeks: "2週表示",
+                        CalendarFormat.month: "月表示",
                       },
                     ),
                   ),
@@ -120,6 +123,7 @@ class ReadingActivityRecordCardList extends StatelessWidget {
                             (entry) => ReadingActivityRecordBookItem(
                               book: entry.key,
                               isChecked: entry.value,
+                              toggleDisabled: onlyBook != null,
                             ),
                           )
                           .toList(),

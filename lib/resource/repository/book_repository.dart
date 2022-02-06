@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simple_book_log/resource/model/enum/book_status.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
 import 'package:simple_book_log/resource/model/table/book_timeline_item_row.dart';
+import 'package:simple_book_log/resource/model/view/book_with_period.dart';
 import 'package:simple_book_log/resource/repository/repository_base.dart';
 
 import "package:collection/collection.dart";
@@ -69,6 +70,51 @@ class BookRepository extends RepositoryBase<BookRow> {
         .update(updatedRow.toMap());
   }
 
+  Future<List<BookWithPeriod>> listBookWithPeriod(String userId) async {
+    final _db = FirebaseFirestore.instance;
+    final bookQs = await _db.collection('users').doc(userId).collection('books').get();
+    final bookWithPeriods = await Future.wait(
+      bookQs.docs.map(
+        (qds) async {
+          final finishEvent = await qds.reference
+              .collection('book_timeline_items')
+              .where(
+                'bookStatus',
+                isEqualTo: BookStatus.finishReading.code,
+              )
+              .orderBy('createdAt', descending: true)
+              .limit(1)
+              .get();
+
+          final startEvent = await qds.reference
+              .collection('book_timeline_items')
+              .where(
+                'bookStatus',
+                isEqualTo: BookStatus.reading.code,
+              )
+              .orderBy('createdAt', descending: true)
+              .limit(1)
+              .get();
+
+          if (finishEvent.docs.isEmpty) return null;
+          QueryDocumentSnapshot finishEventQs = finishEvent.docs.single;
+          QueryDocumentSnapshot? startEventQs = startEvent.docs.singleOrNull;
+
+          BookTimelineItemRow _finishTI = BookTimelineItemRow.fromSnapshot(finishEventQs);
+          BookTimelineItemRow? _startTI =
+              startEventQs == null ? null : BookTimelineItemRow.fromSnapshot(startEventQs);
+          return BookWithPeriod(
+            bookRow: BookRow.fromSnapshot(qds),
+            startDate: _startTI?.createdAt,
+            endDate: _finishTI.createdAt,
+          );
+        },
+      ),
+    );
+
+    return bookWithPeriods.whereType<BookWithPeriod>().toList();
+  }
+
   Future<Map<BookRow, DateTime>> listFinishedBook(
       String userId, DateTime start, DateTime end) async {
     final _db = FirebaseFirestore.instance;
@@ -82,8 +128,8 @@ class BookRepository extends RepositoryBase<BookRow> {
               .orderBy('createdAt', descending: true)
               .get();
 
-          QueryDocumentSnapshot bookTimelineQds = bookTimelineQs.docs.first;
-          if (!bookTimelineQds.exists) return null;
+          if (bookTimelineQs.docs.isEmpty) return null;
+          QueryDocumentSnapshot bookTimelineQds = bookTimelineQs.docs.single;
 
           BookTimelineItemRow _timelineItem = BookTimelineItemRow.fromSnapshot(bookTimelineQds);
           if (start.isBefore(_timelineItem.createdAt) && end.isAfter(_timelineItem.createdAt)) {

@@ -13,16 +13,19 @@ import 'package:simple_book_log/widget/component/reading_activity_record_modal/r
 
 class ReadingActivityRecordModal extends StatelessWidget {
   DateTime selectedDate;
+  BookRow? onlyBook;
   List<BookRow> selectedBooks = [];
 
   ReadingActivityRecordModal({
     Key? key,
     required this.selectedDate,
+    this.onlyBook,
   }) : super(key: key);
 
   static open(
     BuildContext context, {
     DateTime? initialDate,
+    BookRow? onlyBook,
     void Function()? callback,
     List<BookRow> books = const [],
   }) {
@@ -34,7 +37,10 @@ class ReadingActivityRecordModal extends StatelessWidget {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return ReadingActivityRecordModal(selectedDate: _date);
+        return ReadingActivityRecordModal(
+          selectedDate: _date,
+          onlyBook: onlyBook,
+        );
       },
     ).whenComplete(() => _callback());
   }
@@ -53,6 +59,7 @@ class ReadingActivityRecordModal extends StatelessWidget {
             ..initialize(
               userId: _sessionCubit.getCurrentUserId(),
               initialDate: selectedDate,
+              onlyBook: onlyBook,
             ),
         ),
         BlocProvider(
@@ -90,6 +97,7 @@ class ReadingActivityRecordModal extends StatelessWidget {
               Expanded(
                 child: ReadingActivityRecordCardList(
                   initialDate: selectedDate,
+                  onlyBook: onlyBook,
                 ),
               ),
               ReadingActivityRecordModalBottom(),

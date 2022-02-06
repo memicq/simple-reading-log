@@ -5,13 +5,14 @@ import 'package:simple_book_log/resource/model/enum/ios_identifier.dart';
 class IosBottomSpace extends StatefulWidget {
   const IosBottomSpace({Key? key}) : super(key: key);
 
+  static const double bottomSpacePx = 20;
+
   @override
   State<StatefulWidget> createState() => IosBottomSpaceState();
 }
 
 class IosBottomSpaceState extends State<IosBottomSpace> {
   bool _needBottomSpace = true;
-  static const double bottomSpacePx = 20;
 
   @override
   void initState() {
@@ -33,7 +34,7 @@ class IosBottomSpaceState extends State<IosBottomSpace> {
   Widget build(BuildContext context) {
     if (_needBottomSpace) {
       return Container(
-        height: bottomSpacePx,
+        height: IosBottomSpace.bottomSpacePx,
         width: double.infinity,
         color: Colors.transparent,
       );

@@ -8,6 +8,7 @@ class UserRow {
   final String? displayName;
   final String? email;
   final LoginAuthenticationType authenticationType;
+  final bool isAdvertisementEnabled;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -17,16 +18,18 @@ class UserRow {
     required this.displayName,
     required this.email,
     required this.authenticationType,
+    required this.isAdvertisementEnabled,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  static UserRow createNewUser(
-    String uid,
+  static UserRow createNewUser({
+    required String uid,
+    required LoginAuthenticationType authenticationType,
     String? displayName,
     String? email,
-    LoginAuthenticationType authenticationType,
-  ) {
+    bool? isAdvertisementEnabled,
+  }) {
     String userId = UniqueIdGenerator().generateId();
 
     return UserRow(
@@ -35,8 +38,28 @@ class UserRow {
       displayName: displayName,
       email: email,
       authenticationType: authenticationType,
+      isAdvertisementEnabled: isAdvertisementEnabled ?? true,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
+    );
+  }
+
+  UserRow copyWith({
+    String? uid,
+    String? displayName,
+    String? email,
+    LoginAuthenticationType? authenticationType,
+    bool? isAdvertisementEnabled,
+  }) {
+    return UserRow(
+      userId: userId,
+      uid: uid ?? this.uid,
+      displayName: displayName ?? this.displayName,
+      email: email ?? this.email,
+      authenticationType: authenticationType ?? this.authenticationType,
+      isAdvertisementEnabled: isAdvertisementEnabled ?? this.isAdvertisementEnabled,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 
@@ -44,6 +67,7 @@ class UserRow {
       : assert(snapshot.get("userId") != null),
         assert(snapshot.get("uid") != null),
         assert(snapshot.get("authenticationType") != null),
+        assert(snapshot.get("isAdvertisementEnabled") != null),
         assert(snapshot.get("createdAt") != null),
         assert(snapshot.get("updatedAt") != null),
         userId = snapshot.reference.id,
@@ -53,6 +77,7 @@ class UserRow {
         authenticationType = LoginAuthenticationTypeExt.fromCode(
           snapshot.get("authenticationType"),
         ),
+        isAdvertisementEnabled = snapshot.get("isAdvertisementEnabled"),
         createdAt = snapshot.get("createdAt").toDate(),
         updatedAt = snapshot.get("updatedAt").toDate();
 
@@ -63,6 +88,7 @@ class UserRow {
       "email": email,
       "displayName": displayName,
       "authenticationType": authenticationType.code,
+      "isAdvertisementEnabled": isAdvertisementEnabled,
       "createdAt": createdAt,
       "updatedAt": updatedAt
     };

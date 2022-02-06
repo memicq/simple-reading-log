@@ -4,8 +4,10 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/resource/model/enum/login_authentication_type.dart';
+import 'package:simple_book_log/resource/model/state/session_cubit_state.dart';
 import 'package:simple_book_log/resource/model/table/user_row.dart';
 import 'package:simple_book_log/widget/component/common/template_app_bar.dart';
+import 'package:simple_book_log/widget/component/login_or_register/login_or_register_by_email_modal.dart';
 import 'package:simple_book_log/widget/screen/login_or_register_screen.dart';
 
 class LoginOrRegisterTemplate extends StatefulWidget {
@@ -31,10 +33,10 @@ class LoginOrRegisterTemplateState extends State<LoginOrRegisterTemplate> {
   Widget build(BuildContext context) {
     SessionCubit _sessionCubit = context.read<SessionCubit>();
 
-    return BlocBuilder<SessionCubit, UserRow?>(
+    return BlocBuilder<SessionCubit, SessionCubitState>(
       bloc: _sessionCubit,
-      builder: (context, _user) {
-        _checkLoginStateAfterBuild(_user);
+      builder: (context, sessionState) {
+        _checkLoginStateAfterBuild(sessionState.currentUser);
         return Scaffold(
           appBar: TemplateAppBar(
             title: "ログイン・ユーザ登録",
@@ -48,25 +50,30 @@ class LoginOrRegisterTemplateState extends State<LoginOrRegisterTemplate> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 2 - 80 - _loginButtonHeight * 2,
+                    height: MediaQuery.of(context).size.height / 2 - 80 - _loginButtonHeight * 3,
                   ),
                   SignInButton(
                     Buttons.Google,
-                    onPressed: () => _sessionCubit.login(LoginAuthenticationType.google),
+                    onPressed: () => _sessionCubit.loginBy(LoginAuthenticationType.google),
                   ),
                   SignInButton(
-                    Buttons.Apple,
-                    onPressed: () => _sessionCubit.login(LoginAuthenticationType.apple),
+                    Buttons.AppleDark,
+                    onPressed: () => _sessionCubit.loginBy(LoginAuthenticationType.apple),
                   ),
-                  Divider(),
+                  SignInButton(
+                    Buttons.Email,
+                    onPressed: () =>
+                        LoginOrRegisterByEmailModal.open(context, onSubmit: _sessionCubit.loginBy),
+                  ),
+                  const Divider(),
                   Container(
                     height: _loginButtonHeight,
-                    padding: EdgeInsets.symmetric(vertical: 6),
+                    padding: const EdgeInsets.symmetric(vertical: 6),
                     child: SizedBox(
                       height: 36,
                       width: _loginButtonWidth,
                       child: ElevatedButton(
-                        onPressed: () => _sessionCubit.login(LoginAuthenticationType.anonymous),
+                        onPressed: () => _sessionCubit.loginBy(LoginAuthenticationType.anonymous),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.white),
                           foregroundColor: MaterialStateProperty.all(Colors.black),
