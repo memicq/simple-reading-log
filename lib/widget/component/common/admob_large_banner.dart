@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdmobLargeBanner extends StatelessWidget {
@@ -6,7 +7,9 @@ class AdmobLargeBanner extends StatelessWidget {
 
   final BannerAd bannerAd = BannerAd(
     size: AdSize.fullBanner,
-    adUnitId: "ca-app-pub-3940256099942544/2934735716",
+    adUnitId: kDebugMode
+        ? "ca-app-pub-3940256099942544/2934735716"
+        : "ca-app-pub-5680575878112984/2990263915",
     listener: const BannerAdListener(),
     request: const AdRequest(),
   );

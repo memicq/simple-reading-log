@@ -5,7 +5,7 @@ class TemplateAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
   final double appBarElevation;
 
-  final enableCloseButton;
+  final bool enableCloseButton;
 
   @override
   final Size preferredSize = Sizes.appBarSize;

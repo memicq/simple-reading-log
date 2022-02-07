@@ -29,12 +29,11 @@ class ReadingActivityRecordCubit extends Cubit<ReadingActivityRecordCubitState> 
     if (onlyBook != null) {
       selectedBooks = {onlyBook: true};
     } else {
-      List<BookRow> readingBooks = await _bookRepository.listByStatus(userId, BookStatus.reading);
-      List<BookRow> finishReadingBooks =
-          await _bookRepository.listByStatus(userId, BookStatus.finishReading);
-      List<BookRow> booksAfterReading = readingBooks + finishReadingBooks;
+      List<BookRow> books = await _bookRepository.list(userId);
+      books.sort((a, b) => a.updatedAt.isBefore(b.updatedAt) ? 1 : -1);
+
       selectedBooks = Map.fromEntries(
-        booksAfterReading.map((book) => MapEntry(book, false)),
+        books.map((book) => MapEntry(book, false)),
       );
     }
 

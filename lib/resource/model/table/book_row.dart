@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:simple_book_log/resource/model/enum/book_status.dart';
 import 'package:simple_book_log/util/unique_id_generator.dart';
 
@@ -23,6 +24,9 @@ class BookRow {
   final BookStatus status;
   final String memo;
 
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
   BookRow({
     required this.bookId,
     required this.title,
@@ -42,6 +46,8 @@ class BookRow {
     required this.imageUrl,
     required this.status,
     required this.memo,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   static BookRow createNewBook({
@@ -84,6 +90,8 @@ class BookRow {
       imageUrl: imageUrl,
       status: status,
       memo: memo,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
   }
 
@@ -100,6 +108,8 @@ class BookRow {
         assert(snapshot.get("imageUrl") != null),
         assert(snapshot.get("status") != null),
         assert(snapshot.get("memo") != null),
+        assert(snapshot.get("createdAt") != null),
+        assert(snapshot.get("updatedAt") != null),
         bookId = snapshot.reference.id,
         title = snapshot.get("title"),
         titleKana = snapshot.get("titleKana"),
@@ -117,9 +127,11 @@ class BookRow {
         itemPrice = snapshot.get("itemPrice"),
         imageUrl = snapshot.get("imageUrl"),
         status = BookStatusExt.fromCode(snapshot.get("status")),
-        memo = snapshot.get("memo");
+        memo = snapshot.get("memo"),
+        createdAt = snapshot.get("createdAt").toDate(),
+        updatedAt = snapshot.get("updatedAt").toDate();
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap(bool isDateUpdate) {
     return {
       "bookId": bookId,
       "title": title,
@@ -139,6 +151,8 @@ class BookRow {
       "imageUrl": imageUrl,
       "status": status.code,
       "memo": memo,
+      "createdAt": Timestamp.fromDate(createdAt),
+      "updatedAt": Timestamp.fromDate(isDateUpdate ? DateTime.now() : updatedAt),
     };
   }
 
@@ -165,6 +179,8 @@ class BookRow {
       imageUrl: imageUrl,
       status: newStatus ?? status,
       memo: newMemo ?? memo,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 

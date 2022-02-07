@@ -47,6 +47,51 @@ class ReadingActivityRecordCardList extends StatelessWidget {
             double dateContentHeight = isDateFormClosed ? 0 : maxContentHeight;
             double bookContentHeight = isBooksFormClosed ? 0 : maxContentHeight;
 
+            Widget _bookListView = state.selectedBooks.entries.isEmpty
+                ? Center(
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Icon(
+                          Icons.lightbulb_outline_rounded,
+                          size: 60,
+                          color: ColorConstants.grayTextColor,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "まだ選択できる本がないようです。",
+                          style: TextStyle(color: ColorConstants.grayTextColor),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "本ごとに読書を記録したい場合は、",
+                          style: TextStyle(color: ColorConstants.grayTextColor),
+                        ),
+                        Text(
+                          "「本棚」タブより本を追加してください。",
+                          style: TextStyle(color: ColorConstants.grayTextColor),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView(
+                    children: state.selectedBooks.entries
+                        .map(
+                          (entry) => ReadingActivityRecordBookItem(
+                            book: entry.key,
+                            isChecked: entry.value,
+                            toggleDisabled: onlyBook != null,
+                          ),
+                        )
+                        .toList(),
+                  );
+
             return Column(
               children: [
                 Container(
@@ -117,17 +162,7 @@ class ReadingActivityRecordCardList extends StatelessWidget {
                   duration: const Duration(milliseconds: 300),
                   child: SizedBox(
                     height: bookContentHeight,
-                    child: ListView(
-                      children: state.selectedBooks.entries
-                          .map(
-                            (entry) => ReadingActivityRecordBookItem(
-                              book: entry.key,
-                              isChecked: entry.value,
-                              toggleDisabled: onlyBook != null,
-                            ),
-                          )
-                          .toList(),
-                    ),
+                    child: _bookListView,
                   ),
                 ),
                 Expanded(

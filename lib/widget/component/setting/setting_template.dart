@@ -86,11 +86,11 @@ class SettingTemplate extends StatelessWidget {
                 title: "テーマカラーを変更する",
                 onPressed: () => SettingChangeThemeTemplate.open(context),
               ),
-              SettingMenuItem(
-                iconData: Icons.do_not_disturb,
-                title: "広告を消す",
-                onPressed: () {},
-              ),
+              // SettingMenuItem(
+              //   iconData: Icons.do_not_disturb,
+              //   title: "広告を消す",
+              //   onPressed: () {},
+              // ),
               const ColumnSpacer(),
               SettingMenuItem(
                 iconData: Icons.question_answer_outlined,

@@ -36,7 +36,7 @@ class BookshelfItemDetailMemo extends StatelessWidget {
 
         Future<void> updateMemo(String memo) async {
           await _bookshelfItemDetailCubit.updateMemo(_sessionCubit.getCurrentUserId(), memo);
-          BookshelfItemDetailMemoInputModal.close(context);
+          BookshelfItemDetailMemoInputTemplate.close(context);
         }
 
         return BookshelfItemDetailCard(
@@ -59,8 +59,8 @@ class BookshelfItemDetailMemo extends StatelessWidget {
                     style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all(ColorConstants.accentColor),
                     ),
-                    onPressed: () =>
-                        BookshelfItemDetailMemoInputModal.open(context, bookRow.memo, updateMemo),
+                    onPressed: () => BookshelfItemDetailMemoInputTemplate.open(
+                        context, bookRow.memo, updateMemo),
                     child: buttonText,
                   ),
                 )

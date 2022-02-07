@@ -99,10 +99,8 @@ class SessionCubit extends Cubit<SessionCubitState> {
     try {
       User _oldUser = FirebaseAuth.instance.currentUser!;
       AuthCredential? _credential = await _getCredentialByGoogle();
-      User? _user =
-          (await FirebaseAuth.instance.currentUser!.linkWithCredential(_credential!)).user;
+      User? _user = (await _oldUser.linkWithCredential(_credential!)).user;
       UserRow _userRow = await _updateUserRow(LoginAuthenticationType.google, _oldUser, _user!);
-      await _oldUser.delete();
 
       _state = _state.copyWith(isFirstFetching: false, currentUser: _userRow);
       emit(_state);
@@ -129,10 +127,8 @@ class SessionCubit extends Cubit<SessionCubitState> {
     try {
       User _oldUser = FirebaseAuth.instance.currentUser!;
       AuthCredential? _credential = await _getCredentialByApple();
-      User? _user =
-          (await FirebaseAuth.instance.currentUser!.linkWithCredential(_credential!)).user;
+      User? _user = (await _oldUser.linkWithCredential(_credential!)).user;
       UserRow _userRow = await _updateUserRow(LoginAuthenticationType.apple, _oldUser, _user!);
-      await _oldUser.delete();
 
       _state = _state.copyWith(isFirstFetching: false, currentUser: _userRow);
       emit(_state);
@@ -157,10 +153,11 @@ class SessionCubit extends Cubit<SessionCubitState> {
   Future<void> _linkWithEmail(String email, String password) async {
     try {
       User _oldUser = FirebaseAuth.instance.currentUser!;
-      UserCredential? _credential = await _getCredentialByEmail(email, password);
-      User? _user = _credential?.user;
+
+      AuthCredential _emailAuthCredential =
+          EmailAuthProvider.credential(email: email, password: password);
+      User? _user = (await _oldUser.linkWithCredential(_emailAuthCredential)).user;
       UserRow _userRow = await _updateUserRow(LoginAuthenticationType.email, _oldUser, _user!);
-      await _oldUser.delete();
 
       _state = _state.copyWith(isFirstFetching: false, currentUser: _userRow);
       emit(_state);
