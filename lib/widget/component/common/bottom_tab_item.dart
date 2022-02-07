@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 
 class BottomTabItem extends StatefulWidget {
@@ -26,10 +28,13 @@ class BottomTabItem extends StatefulWidget {
 class BottomTabItemState extends State<BottomTabItem> {
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
+    Color activeColor = _sessionCubit.getAccentColor();
+
     Icon icon = widget.isActive
         ? Icon(
             widget.filledIconData,
-            color: ColorConstants.accentColor,
+            color: activeColor,
             size: 25,
           )
         : Icon(
@@ -42,7 +47,7 @@ class BottomTabItemState extends State<BottomTabItem> {
         ? Text(
             widget.menuTitle,
             style: TextStyle(
-              color: ColorConstants.accentColor,
+              color: activeColor,
               fontSize: 10,
             ),
           )

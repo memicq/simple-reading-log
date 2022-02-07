@@ -123,10 +123,10 @@ class SettingTemplate extends StatelessWidget {
               //   title: "このアプリをシェア",
               // ),
               // const ColumnSpacer(),
-              const SettingMenuItem(
-                iconData: Icons.person_outlined,
-                title: "開発者を支援する",
-              ),
+              // const SettingMenuItem(
+              //   iconData: Icons.person_outlined,
+              //   title: "開発者を支援する",
+              // ),
               const ColumnSpacer(),
               SettingMenuItem(
                 iconData: Icons.logout,

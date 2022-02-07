@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:simple_book_log/resource/model/enum/login_authentication_type.dart';
+import 'package:simple_book_log/resource/model/enum/application_theme.dart';
 import 'package:simple_book_log/resource/model/state/session_cubit_state.dart';
 import 'package:simple_book_log/resource/model/table/user_row.dart';
 import 'package:simple_book_log/resource/repository/user_repository.dart';
@@ -30,6 +32,30 @@ class SessionCubit extends Cubit<SessionCubitState> {
       return _state.currentUser!.userId;
     } else {
       throw Error();
+    }
+  }
+
+  Color getAccentColor() {
+    return (_state.currentUser != null)
+        ? _state.currentUser!.theme.accentColor
+        : ApplicationTheme.defaultGray.accentColor;
+  }
+
+  ApplicationTheme getTheme() {
+    return (_state.currentUser != null) ? _state.currentUser!.theme : ApplicationTheme.defaultGray;
+  }
+
+  Future<void> updateTheme(ApplicationTheme theme) async {
+    if (theme == _state.currentUser?.theme) return;
+
+    UserRow? _userRow = _state.currentUser;
+    UserRow? _newUserRow = _userRow?.copyWith(theme: theme);
+
+    if (_newUserRow != null) {
+      await _userRepository.update(_newUserRow);
+
+      _state = _state.copyWith(currentUser: _newUserRow);
+      emit(_state);
     }
   }
 

@@ -37,7 +37,7 @@ class StatisticMenuHabitBottom extends StatelessWidget {
       alignment: Alignment.centerRight,
       child: TextButton(
         style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all(ColorConstants.accentColor),
+          foregroundColor: MaterialStateProperty.all(_sessionCubit.getAccentColor()),
         ),
         child: const Text("読書記録を追加する"),
         onPressed: () => ReadingActivityRecordModal.open(

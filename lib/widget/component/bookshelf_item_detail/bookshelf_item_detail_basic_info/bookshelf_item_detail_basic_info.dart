@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/borders.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
@@ -18,6 +20,8 @@ class BookshelfItemDetailBasicInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -65,7 +69,7 @@ class BookshelfItemDetailBasicInfo extends StatelessWidget {
               child: const Text("詳細を見る"),
               onPressed: () => launch(bookRow.itemUrl),
               style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(ColorConstants.accentColor),
+                foregroundColor: MaterialStateProperty.all(_sessionCubit.getAccentColor()),
               ),
             ),
           ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/color_constants.dart';
-import 'package:simple_book_log/const/shadows.dart';
+import 'package:simple_book_log/resource/model/state/session_cubit_state.dart';
 
 class ReadingActivityRecordCardHeader extends StatelessWidget {
   final IconData iconData;
@@ -18,6 +20,7 @@ class ReadingActivityRecordCardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
     IconData _toggleIcon = isClosed ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down;
 
     return Container(
@@ -27,7 +30,7 @@ class ReadingActivityRecordCardHeader extends StatelessWidget {
         children: [
           Icon(
             iconData,
-            color: ColorConstants.accentColor,
+            color: _sessionCubit.getAccentColor(),
           ),
           const SizedBox(width: 10),
           Text(

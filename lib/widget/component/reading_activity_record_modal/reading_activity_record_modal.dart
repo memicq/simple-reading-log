@@ -82,7 +82,7 @@ class ReadingActivityRecordModal extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.add,
-                      color: ColorConstants.accentColor,
+                      color: _sessionCubit.getAccentColor(),
                     ),
                     const SizedBox(
                       width: 10,

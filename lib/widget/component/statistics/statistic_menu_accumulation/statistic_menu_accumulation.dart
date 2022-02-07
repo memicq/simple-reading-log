@@ -6,12 +6,13 @@ class StatisticMenuAccumulation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StatisticMenuCard(
-      title: "すべての読書量",
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Text("aaa"),
-      ),
-    );
+    return Container();
+    // return StatisticMenuCard(
+    //   title: "すべての読書量",
+    //   child: Container(
+    //     padding: EdgeInsets.all(10),
+    //     child: Text("aaa"),
+    //   ),
+    // );
   }
 }

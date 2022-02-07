@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:simple_book_log/const/borders.dart';
 import 'package:simple_book_log/const/color_constants.dart';
+import 'package:simple_book_log/resource/model/enum/application_theme.dart';
 
 class SettingChangeThemeItem extends StatelessWidget {
   final String title;
   final Color color;
   final bool isSelected;
+  final Future<void> Function() onPressed;
 
   SettingChangeThemeItem({
     Key? key,
     required this.title,
     required this.color,
+    required this.onPressed,
     this.isSelected = false,
   }) : super(key: key);
 
@@ -19,7 +22,7 @@ class SettingChangeThemeItem extends StatelessWidget {
     return Material(
       color: ColorConstants.mainBgColor,
       child: InkWell(
-        onTap: () {},
+        onTap: onPressed,
         child: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(

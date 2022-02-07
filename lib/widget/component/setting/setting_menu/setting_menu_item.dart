@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/borders.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 
@@ -16,6 +18,8 @@ class SettingMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
+
     return Material(
       color: Colors.white,
       child: InkWell(
@@ -38,7 +42,7 @@ class SettingMenuItem extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Icon(
                     iconData,
-                    color: ColorConstants.accentColor,
+                    color: _sessionCubit.getAccentColor(),
                   ),
                 ),
                 Expanded(

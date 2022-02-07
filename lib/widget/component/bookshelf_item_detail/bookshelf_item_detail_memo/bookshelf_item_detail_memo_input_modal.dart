@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/borders.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/widget/component/common/is_bottom_space.dart';
@@ -63,6 +65,8 @@ class BookshelfItemDetailMemoInputTemplateState
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
+
     return TemplateScaffold(
       title: "メモを編集",
       body: SizedBox(
@@ -101,7 +105,7 @@ class BookshelfItemDetailMemoInputTemplateState
               child: TextButton(
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all(EdgeInsets.zero),
-                  foregroundColor: MaterialStateProperty.all(ColorConstants.accentColor),
+                  foregroundColor: MaterialStateProperty.all(_sessionCubit.getAccentColor()),
                 ),
                 child: const Text("保存する"),
                 onPressed: () => widget.onPressed(_controller.value.text),

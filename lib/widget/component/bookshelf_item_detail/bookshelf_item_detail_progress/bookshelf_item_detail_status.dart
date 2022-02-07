@@ -58,7 +58,7 @@ class BookshelfItemDetailStatus extends StatelessWidget {
         BookshelfItemDetailStatusTag(status: bookStatus),
         TextButton(
           style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all(ColorConstants.accentColor),
+            foregroundColor: MaterialStateProperty.all(_sessionCubit.getAccentColor()),
           ),
           onPressed: () => _showModalPicker(context, userId, _bookshelfItemDetailCubit),
           child: const Text("更新する"),

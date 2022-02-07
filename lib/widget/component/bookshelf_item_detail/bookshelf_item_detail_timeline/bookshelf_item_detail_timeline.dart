@@ -10,10 +10,12 @@ import 'package:timelines/timelines.dart';
 
 class BookshelfItemDetailTimeline extends StatelessWidget {
   final String bookId;
+  final Color mainColor;
 
   const BookshelfItemDetailTimeline({
     Key? key,
     required this.bookId,
+    required this.mainColor,
   }) : super(key: key);
 
   Widget _buildTimelineItem(List<BookTimelineItemRow> items, int index) {
@@ -26,14 +28,12 @@ class BookshelfItemDetailTimeline extends StatelessWidget {
 
   Widget? _buildStartConnector(List<BookTimelineItemRow> items, int index) {
     return (index == 0)
-        ? DashedLineConnector(color: ColorConstants.accentColor)
-        : SolidLineConnector(color: ColorConstants.accentColor);
+        ? DashedLineConnector(color: mainColor)
+        : SolidLineConnector(color: mainColor);
   }
 
   Widget? _buildEndConnector(List<BookTimelineItemRow> items, int index) {
-    return (index == items.length - 1)
-        ? null
-        : SolidLineConnector(color: ColorConstants.accentColor);
+    return (index == items.length - 1) ? null : SolidLineConnector(color: mainColor);
   }
 
   @override
@@ -61,7 +61,7 @@ class BookshelfItemDetailTimeline extends StatelessWidget {
                   builder: TimelineTileBuilder(
                     contentsAlign: ContentsAlign.basic,
                     indicatorBuilder: (context, index) => OutlinedDotIndicator(
-                      color: ColorConstants.accentColor,
+                      color: mainColor,
                     ),
                     startConnectorBuilder: (context, index) =>
                         _buildStartConnector(timelineItems, index),

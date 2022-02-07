@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:simple_book_log/bloc/application_theme_cubit.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/const/constants.dart';
@@ -20,9 +19,6 @@ class RootApplication extends StatelessWidget {
         BlocProvider<SessionCubit>(
           create: (_) => SessionCubit()..checkInitialLoginState(),
         ),
-        BlocProvider<ApplicationThemeCubit>(
-          create: (_) => ApplicationThemeCubit(),
-        )
       ],
       child: AppBuilder(
         builder: (context) {

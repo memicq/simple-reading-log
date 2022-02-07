@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/borders.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/const/fonts.dart';
@@ -17,6 +19,8 @@ class BookshelfItemDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -41,7 +45,7 @@ class BookshelfItemDetailCard extends StatelessWidget {
               children: [
                 Icon(
                   iconData,
-                  color: ColorConstants.accentColor,
+                  color: _sessionCubit.getAccentColor(),
                 ),
                 const SizedBox(
                   width: 10,

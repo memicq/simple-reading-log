@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:simple_book_log/resource/model/enum/application_theme.dart';
 import 'package:simple_book_log/resource/model/enum/login_authentication_type.dart';
 import 'package:simple_book_log/util/unique_id_generator.dart';
 
@@ -9,6 +10,8 @@ class UserRow {
   final String? email;
   final LoginAuthenticationType authenticationType;
   final bool isAdvertisementEnabled;
+  final ApplicationTheme theme;
+
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -19,6 +22,7 @@ class UserRow {
     required this.email,
     required this.authenticationType,
     required this.isAdvertisementEnabled,
+    required this.theme,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -39,6 +43,7 @@ class UserRow {
       email: email,
       authenticationType: authenticationType,
       isAdvertisementEnabled: isAdvertisementEnabled ?? true,
+      theme: ApplicationTheme.simpleCyan,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
@@ -49,6 +54,7 @@ class UserRow {
     String? displayName,
     String? email,
     LoginAuthenticationType? authenticationType,
+    ApplicationTheme? theme,
     bool? isAdvertisementEnabled,
   }) {
     return UserRow(
@@ -58,6 +64,7 @@ class UserRow {
       email: email ?? this.email,
       authenticationType: authenticationType ?? this.authenticationType,
       isAdvertisementEnabled: isAdvertisementEnabled ?? this.isAdvertisementEnabled,
+      theme: theme ?? this.theme,
       createdAt: createdAt,
       updatedAt: updatedAt,
     );
@@ -68,6 +75,7 @@ class UserRow {
         assert(snapshot.get("uid") != null),
         assert(snapshot.get("authenticationType") != null),
         assert(snapshot.get("isAdvertisementEnabled") != null),
+        assert(snapshot.get("theme") != null),
         assert(snapshot.get("createdAt") != null),
         assert(snapshot.get("updatedAt") != null),
         userId = snapshot.reference.id,
@@ -78,6 +86,7 @@ class UserRow {
           snapshot.get("authenticationType"),
         ),
         isAdvertisementEnabled = snapshot.get("isAdvertisementEnabled"),
+        theme = ApplicationThemeExt.fromCode(snapshot.get("theme")),
         createdAt = snapshot.get("createdAt").toDate(),
         updatedAt = snapshot.get("updatedAt").toDate();
 
@@ -89,6 +98,7 @@ class UserRow {
       "displayName": displayName,
       "authenticationType": authenticationType.code,
       "isAdvertisementEnabled": isAdvertisementEnabled,
+      "theme": theme.code,
       "createdAt": createdAt,
       "updatedAt": updatedAt
     };

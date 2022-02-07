@@ -9,7 +9,7 @@ class LoadingTemplate extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: CircularProgressIndicator(
-          color: ColorConstants.accentColor,
+          color: ColorConstants.grayTextColor,
         ),
       ),
     );

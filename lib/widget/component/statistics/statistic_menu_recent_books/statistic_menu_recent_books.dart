@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/bloc/statistic_menu_recent_book_cubit.dart';
 import 'package:simple_book_log/const/borders.dart';
 import 'package:simple_book_log/const/color_constants.dart';
@@ -14,10 +15,12 @@ class StatisticMenuRecentBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
     StatisticMenuRecentBookCubit _cubit = context.read<StatisticMenuRecentBookCubit>();
 
     return StatisticMenuCard(
       title: "直近読んだ本",
+      mainColor: _sessionCubit.getAccentColor(),
       child: Container(
         width: double.infinity,
         constraints: const BoxConstraints(minHeight: 10, maxHeight: 400),

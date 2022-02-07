@@ -7,11 +7,13 @@ class StatisticMenuCard extends StatefulWidget {
   final String title;
   final Widget child;
   final bool closable;
+  final Color mainColor;
 
   const StatisticMenuCard({
     Key? key,
     required this.title,
     required this.child,
+    required this.mainColor,
     this.closable = true,
   }) : super(key: key);
 
@@ -61,7 +63,7 @@ class StatisticMenuCardState extends State<StatisticMenuCard> {
               children: [
                 Icon(
                   Icons.insert_chart_outlined_rounded,
-                  color: ColorConstants.accentColor,
+                  color: widget.mainColor,
                 ),
                 const SizedBox(
                   width: 10,

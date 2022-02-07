@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/bloc/reading_activity_cubit.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
 import 'package:simple_book_log/resource/model/table/reading_activity_row.dart';
@@ -86,6 +87,7 @@ class StatisticMenuHabit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
     ReadingActivityCubit _readingActivityCubit = context.read<ReadingActivityCubit>();
 
     return BlocBuilder<ReadingActivityCubit, List<ReadingActivityRow>>(
@@ -98,6 +100,7 @@ class StatisticMenuHabit extends StatelessWidget {
 
         return StatisticMenuCard(
           title: "読書習慣",
+          mainColor: _sessionCubit.getAccentColor(),
           child: Container(
             padding: const EdgeInsets.all(10),
             child: Column(

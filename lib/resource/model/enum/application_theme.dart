@@ -17,6 +17,14 @@ extension ApplicationThemeExt on ApplicationTheme {
     ApplicationTheme.simpleOrange: "simpleOrange",
   };
 
+  static final themeJapaneseNames = {
+    ApplicationTheme.defaultGray: "グレー",
+    ApplicationTheme.simpleCyan: "シアン",
+    ApplicationTheme.simpleGreen: "グリーン",
+    ApplicationTheme.simpleRed: "レッド",
+    ApplicationTheme.simpleOrange: "オレンジ",
+  };
+
   static final themeMainColor = {
     ApplicationTheme.defaultGray: Colors.grey,
     ApplicationTheme.simpleCyan: Colors.cyan,
@@ -26,7 +34,8 @@ extension ApplicationThemeExt on ApplicationTheme {
   };
 
   String get code => themeCodes[this] ?? "simpleCyan";
-  Color get color => themeMainColor[this] ?? Colors.cyan;
+  String get japaneseName => themeJapaneseNames[this] ?? "シアン";
+  Color get accentColor => themeMainColor[this] ?? Colors.cyan;
 
   static ApplicationTheme fromCode(String code) =>
       themeCodes.entries.firstWhere((e) => e.value == code).key;

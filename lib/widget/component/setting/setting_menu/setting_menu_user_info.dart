@@ -30,7 +30,7 @@ class SettingMenuUserInfo extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.account_circle_rounded,
-                      color: ColorConstants.accentColor,
+                      color: _sessionCubit.getAccentColor(),
                     ),
                     SizedBox(width: 10),
                     Text("ユーザ情報"),
@@ -67,7 +67,12 @@ class SettingMenuUserInfo extends StatelessWidget {
                           style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
                           onPressed: () =>
                               AnotherLoginAuthenticationForAnonymousUserTemplate.open(context),
-                          child: const Text("ログイン認証を紐付ける"),
+                          child: Text(
+                            "ログイン認証を紐付ける",
+                            style: TextStyle(
+                              color: _sessionCubit.getAccentColor(),
+                            ),
+                          ),
                         ),
                       )
                   ],

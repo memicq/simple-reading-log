@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_book_log/bloc/bookshelf_item_detail_cubit.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/resource/model/table/book_row.dart';
 import 'package:simple_book_log/widget/component/bookshelf_item_detail/bookshelf_item_detail_basic_info/bookshelf_item_detail_basic_info.dart';
 import 'package:simple_book_log/widget/component/bookshelf_item_detail/bookshelf_item_detail_deletion/bookshelf_item_detail_deletion.dart';
@@ -23,6 +24,7 @@ class BookshelfItemDetailTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
     BookshelfItemDetailCubit _bookshelfItemDetailCubit = context.read<BookshelfItemDetailCubit>();
 
     return TemplateScaffold(
@@ -45,6 +47,7 @@ class BookshelfItemDetailTemplate extends StatelessWidget {
                   const ColumnSpacer(),
                   BookshelfItemDetailTimeline(
                     bookId: bookRow.bookId,
+                    mainColor: _sessionCubit.getAccentColor(),
                   ),
                   const ColumnSpacer(),
                   BookshelfItemDetailDeletion(

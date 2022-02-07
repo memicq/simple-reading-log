@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 
 class RoundedPrimaryButton extends StatelessWidget {
@@ -13,6 +15,7 @@ class RoundedPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SessionCubit _sessionCubit = context.read<SessionCubit>();
     return ElevatedButton(
       onPressed: onPressed,
       child: SizedBox(
@@ -23,7 +26,7 @@ class RoundedPrimaryButton extends StatelessWidget {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        primary: ColorConstants.accentColor,
+        primary: _sessionCubit.getAccentColor(),
         onPrimary: Colors.white,
         shape: const CircleBorder(),
       ),

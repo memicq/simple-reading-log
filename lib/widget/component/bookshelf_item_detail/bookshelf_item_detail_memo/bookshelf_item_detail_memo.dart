@@ -57,7 +57,7 @@ class BookshelfItemDetailMemo extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(ColorConstants.accentColor),
+                      foregroundColor: MaterialStateProperty.all(_sessionCubit.getAccentColor()),
                     ),
                     onPressed: () => BookshelfItemDetailMemoInputTemplate.open(
                         context, bookRow.memo, updateMemo),
