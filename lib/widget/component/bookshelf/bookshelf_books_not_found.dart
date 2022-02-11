@@ -19,7 +19,7 @@ class BookshelfBooksNotFound extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              "まだ本棚に本がありません",
+              "まだ本棚に本がありません。",
               style: TextStyle(color: ColorConstants.grayTextColor),
             ),
             const SizedBox(height: 20),

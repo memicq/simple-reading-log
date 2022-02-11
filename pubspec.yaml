@@ -12,6 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
   collection: ^1.15.0
   http: ^0.13.4
 
@@ -48,6 +51,7 @@ dependencies:
   in_app_purchase: ^2.0.1
 
   email_validator: ^2.0.1
+  app_tracking_transparency: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:

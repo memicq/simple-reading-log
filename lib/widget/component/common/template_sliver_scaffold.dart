@@ -5,6 +5,7 @@ import 'package:simple_book_log/widget/component/common/template_app_bar.dart';
 class TemplateSliverScaffold extends StatefulWidget {
   final String title;
   final Widget floatingActionButton;
+  final Widget? secondaryFloadingActionButton;
   final List<Widget> children;
   final Widget header;
 
@@ -14,6 +15,7 @@ class TemplateSliverScaffold extends StatefulWidget {
     required this.header,
     required this.children,
     required this.floatingActionButton,
+    this.secondaryFloadingActionButton,
   }) : super(key: key);
 
   @override
@@ -74,11 +76,12 @@ class _TemplateSliverScaffoldState extends State<TemplateSliverScaffold> {
             bottom: 20,
             child: widget.floatingActionButton,
           ),
-          // Positioned(
-          //   right: 20,
-          //   bottom: 90,
-          //   child: widget.floatingActionButton,
-          // )
+          if (widget.secondaryFloadingActionButton != null)
+            Positioned(
+              right: 20,
+              bottom: 90,
+              child: widget.secondaryFloadingActionButton!,
+            )
         ],
       ),
     );

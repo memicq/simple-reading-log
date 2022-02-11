@@ -98,11 +98,6 @@ class SettingTemplate extends StatelessWidget {
                 onPressed: () => sendInquiryEmail(),
               ),
               const ColumnSpacer(),
-              // SettingMenuItem(
-              //   iconData: Icons.article_outlined,
-              //   title: "利用規約",
-              //   onPressed: () => SettingTermsOfServiceTemplate.open(context),
-              // ),
               SettingMenuItem(
                 iconData: Icons.privacy_tip_outlined,
                 title: "プライバシーポリシー",

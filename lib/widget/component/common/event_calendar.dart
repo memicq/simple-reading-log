@@ -12,7 +12,31 @@ class EventCalendar extends StatefulWidget {
   final CalendarFormat initialFormat;
   final Map<CalendarFormat, String> availableCalendarFormats;
 
-  const EventCalendar({
+  // デフォルト
+  final Color defaultCellColor;
+  final Color defaultTextColor;
+  final Color defaultEventCellColor;
+  final Color defaultEventTextColor;
+
+  // 月外
+  final Color outsideCellColor;
+  final Color outsideTextColor;
+  final Color outsideEventCellColor;
+  final Color outsideEventTextColor;
+
+  // 今日
+  final Color todayCellColor;
+  final Color todayTextColor;
+  final Color todayEventCellColor;
+  final Color todayEventTextColor;
+
+  // 選択中
+  final Color selectedCellColor;
+  final Color selectedTextColor;
+  final Color selectedEventCellColor;
+  final Color selectedEventTextColor;
+
+  EventCalendar({
     Key? key,
     required this.initialFocusedDate,
     this.initialSelectedDate,
@@ -23,6 +47,22 @@ class EventCalendar extends StatefulWidget {
       CalendarFormat.month: '月表示',
       CalendarFormat.twoWeeks: '2週表示',
     },
+    this.defaultCellColor = Colors.white,
+    this.defaultTextColor = Colors.black,
+    this.defaultEventCellColor = Colors.purple,
+    this.defaultEventTextColor = const Color(0xFFFAFAFA),
+    this.outsideCellColor = Colors.white,
+    this.outsideTextColor = Colors.black,
+    this.outsideEventCellColor = Colors.purple,
+    this.outsideEventTextColor = const Color(0xFFFAFAFA),
+    this.todayCellColor = Colors.white,
+    this.todayTextColor = Colors.black,
+    this.todayEventCellColor = Colors.purple,
+    this.todayEventTextColor = const Color(0xFFFAFAFA),
+    this.selectedCellColor = Colors.white,
+    this.selectedTextColor = Colors.black,
+    this.selectedEventCellColor = Colors.purple,
+    this.selectedEventTextColor = const Color(0xFFFAFAFA),
   }) : super(key: key);
 
   @override
@@ -87,10 +127,10 @@ class EventCalendarState extends State<EventCalendar> {
   Widget _buildDay(
     Map<int, List<ReadingActivityRow>> dayActivities,
     DateTime day, {
-    Color eventCellColor = Colors.purple,
-    Color eventTextColor = const Color(0xFFFAFAFA),
-    Color defaultCellColor = Colors.white,
-    Color defaultTextColor = Colors.black,
+    required Color eventCellColor,
+    required Color eventTextColor,
+    required Color defaultCellColor,
+    required Color defaultTextColor,
   }) {
     DateTime yesterday = day.subtract(const Duration(days: 1));
     DateTime tomorrow = day.add(const Duration(days: 1));
@@ -172,33 +212,47 @@ class EventCalendarState extends State<EventCalendar> {
       onDaySelected: (selectedDate, focusedDate) => _selectDate(selectedDate, focusedDate),
       onPageChanged: (focusedDate) => focusedDate = focusedDate,
       calendarBuilders: CalendarBuilders(
-        selectedBuilder: (context, day, focusedDay) => _buildDay(
-          widget.dayActivities,
-          day,
-          eventCellColor: Colors.cyan.shade300,
-          defaultCellColor: Colors.grey.shade200,
-        ),
         defaultBuilder: (context, day, focusedDay) => _buildDay(
           widget.dayActivities,
           day,
-          eventCellColor: Colors.cyan.shade100,
+          defaultTextColor: widget.defaultTextColor,
+          defaultCellColor: widget.defaultCellColor,
+          eventTextColor: widget.defaultEventTextColor,
+          eventCellColor: widget.defaultEventCellColor,
+        ),
+        selectedBuilder: (context, day, focusedDay) => _buildDay(
+          widget.dayActivities,
+          day,
+          defaultTextColor: widget.selectedTextColor,
+          defaultCellColor: widget.selectedCellColor,
+          eventTextColor: widget.selectedEventTextColor,
+          eventCellColor: widget.selectedEventCellColor,
         ),
         singleMarkerBuilder: null,
         outsideBuilder: (context, day, focusedDay) => _buildDay(
           widget.dayActivities,
           day,
-          defaultTextColor: const Color(0xFFAEAEAE),
-          eventTextColor: const Color(0xFFF2F2F2),
-          eventCellColor: Colors.cyan.shade100,
+          defaultTextColor: widget.outsideTextColor,
+          defaultCellColor: widget.outsideCellColor,
+          eventTextColor: widget.outsideEventTextColor,
+          eventCellColor: widget.outsideEventCellColor,
         ),
         todayBuilder: (context, day, focusedDay) => _buildDay(
           widget.dayActivities,
           day,
-          eventCellColor: Colors.cyan.shade200,
+          defaultTextColor: widget.todayTextColor,
+          defaultCellColor: widget.todayCellColor,
+          eventTextColor: widget.todayEventTextColor,
+          eventCellColor: widget.todayEventCellColor,
+          // eventCellColor: Colors.cyan.shade200,
         ),
         disabledBuilder: (context, day, focusedDay) => _buildDay(
           widget.dayActivities,
           day,
+          defaultTextColor: widget.defaultTextColor,
+          defaultCellColor: widget.defaultCellColor,
+          eventTextColor: widget.defaultEventTextColor,
+          eventCellColor: widget.defaultEventCellColor,
         ),
       ),
     );

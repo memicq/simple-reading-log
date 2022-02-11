@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
-import 'package:simple_book_log/const/color_constants.dart';
 
 class RoundedPrimaryButton extends StatelessWidget {
   final IconData iconData;
   final void Function() onPressed;
+  Color? backgroundColor;
 
-  const RoundedPrimaryButton({
+  RoundedPrimaryButton({
     Key? key,
     required this.iconData,
     required this.onPressed,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -26,7 +27,7 @@ class RoundedPrimaryButton extends StatelessWidget {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        primary: _sessionCubit.getAccentColor(),
+        primary: backgroundColor ?? _sessionCubit.getAccentColor(),
         onPrimary: Colors.white,
         shape: const CircleBorder(),
       ),

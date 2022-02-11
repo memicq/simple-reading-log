@@ -1,13 +1,12 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:simple_book_log/bloc/event/tab_controller_event.dart';
 import 'package:simple_book_log/bloc/global_session_cubit.dart';
 import 'package:simple_book_log/bloc/tab_controller_bloc.dart';
 import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/const/shadows.dart';
 import 'package:simple_book_log/resource/model/state/session_cubit_state.dart';
-import 'package:simple_book_log/resource/model/table/user_row.dart';
 import 'package:simple_book_log/widget/app_builder.dart';
 import 'package:simple_book_log/widget/component/common/admob_large_banner.dart';
 import 'package:simple_book_log/widget/component/common/bottom_tab_item.dart';

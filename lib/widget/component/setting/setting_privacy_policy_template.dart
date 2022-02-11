@@ -174,7 +174,7 @@ class SettingPrivacyPolicyTemplate extends StatelessWidget {
                 ),
                 Text(
                   "本ポリシーに関するお問い合わせは，下記の窓口までお願いいたします。 \n"
-                  "Eメールアドレス：",
+                  "Eメールアドレス：simplereadinglog@gmail.com",
                   style: _textStyle,
                 ),
                 SizedBox(
