@@ -29,7 +29,10 @@ class RakutenBookApiSearchRequest {
   }
 
   Map<String, String> toQueryParam() {
-    Map<String, String> map = {"applicationId": _applicationId};
+    Map<String, String> map = {
+      "applicationId": _applicationId,
+      "outOfStockFlag": "1",
+    };
     if (_title != null) map.addAll({"title": _title!});
     if (_author != null) map.addAll({"author": _author!});
     if (_isbn != null) map.addAll({"isbn": _isbn!});

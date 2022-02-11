@@ -17,6 +17,12 @@ class ReadingActivityRecordBookItem extends StatelessWidget {
     this.toggleDisabled = false,
   }) : super(key: key);
 
+  void toggleChecked(ReadingActivityRecordCubit _cubit) {
+    if (!toggleDisabled) {
+      _cubit.toggleBookSelection(book.bookId);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ReadingActivityRecordCubit _readingActivityRecordCubit =
@@ -27,11 +33,7 @@ class ReadingActivityRecordBookItem extends StatelessWidget {
     return Material(
       color: bgColor,
       child: InkWell(
-        onTap: () {
-          if (!toggleDisabled) {
-            _readingActivityRecordCubit.toggleBookSelection(book.bookId);
-          }
-        },
+        onTap: () => toggleChecked(_readingActivityRecordCubit),
         child: Container(
           padding: const EdgeInsets.only(right: 10, top: 10, bottom: 10),
           decoration: BoxDecoration(
@@ -46,7 +48,7 @@ class ReadingActivityRecordBookItem extends StatelessWidget {
             children: [
               Checkbox(
                 value: isChecked,
-                onChanged: (value) {},
+                onChanged: (value) => toggleChecked(_readingActivityRecordCubit),
               ),
               Container(
                 height: 70,

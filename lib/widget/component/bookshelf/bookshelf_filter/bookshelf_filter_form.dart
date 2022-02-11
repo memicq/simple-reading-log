@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:simple_book_log/const/color_constants.dart';
 import 'package:simple_book_log/resource/model/enum/book_status.dart';
 import 'package:simple_book_log/widget/component/bookshelf_item_detail/common/bookshelf_item_detail_status_tag.dart';
 
@@ -64,6 +63,22 @@ class BookshelfFilterForm extends StatelessWidget {
           ),
           Divider(
             height: 0,
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.sort,
+                  color: accentColor,
+                ),
+                SizedBox(width: 10),
+                Text(
+                  "ソート",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
         ],
       ),

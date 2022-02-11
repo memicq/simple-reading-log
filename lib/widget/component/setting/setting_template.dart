@@ -101,7 +101,10 @@ class SettingTemplate extends StatelessWidget {
               SettingMenuItem(
                 iconData: Icons.privacy_tip_outlined,
                 title: "プライバシーポリシー",
-                onPressed: () => SettingPrivacyPolicyTemplate.open(context),
+                onPressed: () {
+                  print("プライバシーポリシー");
+                  SettingPrivacyPolicyTemplate.open(context);
+                },
               ),
               // const SettingMenuItem(
               //   iconData: Icons.update,
@@ -111,7 +114,10 @@ class SettingTemplate extends StatelessWidget {
               SettingMenuItem(
                 iconData: Icons.reviews_outlined,
                 title: "AppStoreでレビューを書く",
-                onPressed: () => AppReview.requestReview,
+                onPressed: () {
+                  print("レビュー");
+                  AppReview.requestReview;
+                },
               ),
               // const SettingMenuItem(
               //   iconData: Icons.share_outlined,

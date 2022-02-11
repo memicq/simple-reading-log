@@ -16,10 +16,17 @@ class BookshelfFilterFormButton extends StatefulWidget {
 
 class BookshelfFilterFormButtonState extends State<BookshelfFilterFormButton> {
   bool _isFormOpened = false;
+  bool _isShowForm = false;
 
-  void toggleFormOpen() {
+  void toggleFormOpen() async {
     setState(() {
       _isFormOpened = !_isFormOpened;
+    });
+    if (_isFormOpened) {
+      await Future.delayed(const Duration(milliseconds: 300));
+    }
+    setState(() {
+      _isShowForm = _isFormOpened;
     });
   }
 
@@ -27,17 +34,17 @@ class BookshelfFilterFormButtonState extends State<BookshelfFilterFormButton> {
   Widget build(BuildContext context) {
     double _maxWidth = MediaQuery.of(context).size.width - 49;
 
-    Widget _child = _isFormOpened
+    Widget _child = _isShowForm
         ? BookshelfFilterForm(
             accentColor: widget.accentColor,
           )
-        : Center(child: Icon(Icons.filter_list));
+        : const Center(child: Icon(Icons.filter_list));
 
     BorderRadius _borderRadius =
         _isFormOpened ? BorderRadius.circular(10) : BorderRadius.circular(55 / 2);
 
     return AnimatedContainer(
-      margin: EdgeInsets.all(4.5),
+      margin: const EdgeInsets.all(4.5),
       curve: Curves.decelerate,
       duration: const Duration(milliseconds: 300),
       height: _isFormOpened ? 300 : 55,
@@ -53,12 +60,7 @@ class BookshelfFilterFormButtonState extends State<BookshelfFilterFormButton> {
           decoration: const BoxDecoration(
             color: Colors.transparent,
           ),
-          child: AnimatedSwitcher(
-            duration: Duration(milliseconds: 600),
-            reverseDuration: Duration(milliseconds: 0),
-            switchInCurve: Curves.easeInCubic,
-            child: _child,
-          ),
+          child: _child,
         ),
       ),
     );
